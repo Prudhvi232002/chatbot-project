@@ -1,0 +1,1351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEET Tutor AI - Exact 4-Section Format</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            height: 100vh;
+            padding: 0;
+            margin: 0;
+            width: 100%;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .container {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 0;
+            min-width: 0;
+        }
+        
+        .chat-section {
+            width: 100%;
+            height: 100%;
+            background: white;
+            border-radius: 0;
+            padding: 20px 30px;
+            box-shadow: none;
+            display: flex;
+            flex-direction: column;
+            min-width: 0;
+            overflow: hidden;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 16px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #f0f0f0;
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            padding: 14px;
+            border-radius: 12px;
+            color: white;
+            margin-top: -6px;
+        }
+        
+        .header h1 {
+            font-size: 1.8rem;
+            margin-bottom: 6px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .header .subtitle {
+            font-size: 1rem;
+            opacity: 0.9;
+            margin-bottom: 0;
+        }
+        
+        /* teaching-method removed */
+        
+        .chat-messages {
+            width: 100%;
+            max-width: 100%;
+            flex: 1;
+            overflow-y: auto;
+            overflow-x: hidden;
+            padding: 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            background: #f8f9fa;
+            min-width: 0;
+            min-height: 0;
+            -webkit-overflow-scrolling: touch;
+        }
+        
+        .chat-messages::after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+        
+        .message {
+            width: auto;
+            max-width: 75%;
+            margin-bottom: 20px;
+            padding: 20px;
+            border-radius: 15px;
+            animation: fadeIn 0.3s ease;
+            min-width: 0;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            display: inline-block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .student-message {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            margin-left: auto;
+            margin-right: 0;
+            float: right;
+            clear: both;
+            border-bottom-right-radius: 5px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            max-width: 600px;
+        }
+        
+        .tutor-message {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            margin-left: 0;
+            margin-right: auto;
+            float: left;
+            clear: both;
+            border-bottom-left-radius: 5px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        /* Ensure readable text inside content blocks within tutor messages */
+        .tutor-message .message-content,
+        .tutor-message .four-section,
+        .tutor-message .concept-box,
+        .tutor-message .hint-box {
+            color: #333;
+        }
+        
+        .message-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        
+        .topic-indicator {
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        
+        .new-topic {
+            background: #ff6b6b;
+            color: white;
+            box-shadow: 0 2px 8px rgba(255,107,107,0.3);
+        }
+        
+        .same-topic {
+            background: #4ecdc4;
+            color: white;
+            box-shadow: 0 2px 8px rgba(78,205,196,0.3);
+        }
+        
+        .format-box {
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        
+        .concept-box {
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            border-left: 4px solid #667eea;
+            padding: 6px 10px;
+            border-radius: 10px;
+            margin: 1px 0;
+        }
+        
+        .hint-box {
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            border-left: 4px solid #ff6b6b;
+            padding: 6px 10px;
+            border-radius: 10px;
+            margin: 1px 0;
+        }
+        
+        .question-count {
+            display: inline-block;
+            background: #ffd166;
+            color: #333;
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            margin-left: 10px;
+            font-weight: 600;
+        }
+        
+        .input-area {
+            width: 100%;
+            max-width: 100%;
+            display: flex;
+            gap: 10px;
+            min-width: 0;
+        }
+        
+        #questionInput {
+            flex: 1;
+            width: 100%;
+            max-width: 100%;
+            padding: 18px;
+            border: 2px solid #d1d1d1;
+            border-radius: 12px;
+            font-size: 16px;
+            transition: all 0.3s;
+            background: #f8f9fa;
+            min-width: 0;
+        }
+        
+        #questionInput:focus {
+            outline: none;
+            border-color: #667eea;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(102,126,234,0.1);
+        }
+        
+        #sendBtn {
+            padding: 18px 35px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        #sendBtn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102,126,234,0.4);
+        }
+        
+        /* info-section removed */
+        
+        .info-box {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 15px;
+            border-left: 4px solid;
+        }
+        
+        .info-box h3 {
+            color: #333;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.1rem;
+        }
+        
+        .session-info {
+            border-left-color: #667eea;
+            background: linear-gradient(135deg, #e3f2fd 0%, #f3e5f5 100%);
+        }
+        
+        .format-info {
+            border-left-color: #ff6b6b;
+            background: linear-gradient(135deg, #ffeaa7 0%, #fab1a0 100%);
+        }
+        
+        .rules-info {
+            border-left-color: #00b894;
+            background: linear-gradient(135deg, #55efc4 0%, #81ecec 100%);
+        }
+        
+        .sample-questions {
+            border-left-color: #6c5ce7;
+            background: linear-gradient(135deg, #a29bfe 0%, #dfe6e9 100%);
+        }
+        
+        .rule-item {
+            padding: 10px;
+            margin-bottom: 8px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .rule-yes {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .rule-no {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        
+        .sample-question {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 2px solid #e0e0e0;
+            font-size: 0.95rem;
+        }
+        
+        .sample-question:hover {
+            transform: translateX(5px);
+            border-color: #667eea;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        #imageInput {
+            display: none;
+        }
+
+        .image-preview {
+            max-width: 150px;
+            max-height: 150px;
+            border-radius: 10px;
+            display: block;
+            object-fit: cover;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .remove-image-btn {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            width: 24px;
+            height: 24px;
+            background: #ff4757;
+            color: white;
+            border: 2px solid white;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: bold;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+            transition: all 0.2s;
+        }
+        
+        .remove-image-btn:hover {
+            background: #ee5a6f;
+            transform: scale(1.1);
+        }
+
+        #uploadImageBtn {
+            padding: 12px 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            width: auto;
+        }
+
+        #uploadImageBtn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102,126,234,0.4);
+        }
+
+        .image-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 10px;
+            align-items: stretch;
+        }
+        
+        .image-preview-wrapper {
+            position: relative;
+            display: none;
+            align-self: flex-start;
+            margin-bottom: 10px;
+        }
+        
+        .image-preview-wrapper.show {
+            display: inline-block;
+        }
+        
+        .input-area {
+            display: flex;
+            gap: 10px;
+            flex: 1;
+        }
+
+        .message-image {
+            max-width: 100%;
+            max-height: 300px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            display: block;
+        }
+        
+        .subject-tag {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-right: 8px;
+            margin-bottom: 5px;
+        }
+        
+        .biology-tag { background: #c8e6c9; color: #1b5e20; }
+        .physics-tag { background: #bbdefb; color: #0d47a1; }
+        .chemistry-tag { background: #ffccbc; color: #bf360c; }
+        
+        .typing-indicator {
+            display: none;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 15px;
+            text-align: center;
+            margin-bottom: 20px;
+            animation: pulse 1.5s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+        
+        .dot {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: white;
+            margin: 0 4px;
+            animation: typing 1.4s infinite;
+        }
+        
+        .dot:nth-child(2) { animation-delay: 0.2s; }
+        .dot:nth-child(3) { animation-delay: 0.4s; }
+        
+        @keyframes typing {
+            0%, 60%, 100% { transform: translateY(0); }
+            30% { transform: translateY(-10px); }
+        }
+        
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        
+        @keyframes slideOut {
+            from {
+                transform: translateX(0);
+                opacity: 1;
+            }
+            to {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+        }
+        
+        .copy-btn:hover, .edit-btn:hover {
+            background: #f5f5f5 !important;
+            border-color: #999 !important;
+        }
+        
+        .copy-btn:active, .edit-btn:active {
+            background: #e0e0e0 !important;
+        }
+        
+        .four-section {
+            background: rgba(255,255,255,0.95);
+            border-radius: 15px;
+            padding: 10px;
+            margin: 6px 0;
+            border: 2px dashed #667eea;
+        }
+
+        .section-title {
+            color: #222;
+        }
+        
+        .section-title {
+            font-weight: 600;
+            margin-bottom: 2px;
+            margin-top: 0px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.1rem;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                grid-template-columns: 1fr;
+                width: 100vw;
+                max-width: 100vw;
+            }
+            
+            .chat-section {
+                width: 100%;
+                max-width: 100%;
+                border-radius: 0;
+                padding: 16px;
+            }
+            
+            .chat-messages {
+                height: 400px;
+                width: 100%;
+                max-width: 100%;
+            }
+            
+            .header {
+                width: 100%;
+                max-width: 100%;
+            }
+            
+            .header h1 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="chat-section">
+            <div class="header">
+                <h1>🧠 NEET Tutor AI</h1>
+                <div class="subtitle">Exact 4-Section Format • Smart Question Comparison</div>
+                <div style="margin-top: 10px; display: flex; gap: 10px; justify-content: center;">
+                    <button onclick="clearSessionConfirm()" style="padding: 8px 16px; background: rgba(255,255,255,0.2); color: white; border: 1px solid rgba(255,255,255,0.3); border-radius: 6px; cursor: pointer; font-size: 14px; transition: all 0.2s;">
+                        🔄 Clear Session
+                    </button>
+                    <button onclick="viewHistory()" style="padding: 8px 16px; background: rgba(255,255,255,0.2); color: white; border: 1px solid rgba(255,255,255,0.3); border-radius: 6px; cursor: pointer; font-size: 14px; transition: all 0.2s;">
+                        📜 View History
+                    </button>
+                </div>
+            </div>
+            
+            <div class="chat-messages" id="chatMessages">
+                <div class="message tutor-message">
+                    <div class="message-header">
+                        <div>🤖 NEET Tutor AI</div>
+                        <span class="topic-indicator new-topic">NEW TOPIC</span>
+                    </div>
+                    <p>Welcome! I'm your NEET tutor with exact 4-section format for first questions.</p>
+                    <div class="four-section">
+                        <div class="section-title">📚 Concept: Learning Method</div>
+                        <div class="section-title">🌟 Core Concept:</div>
+                        <p>I help you learn by guiding your thinking, not giving direct answers.</p>
+                        <div class="section-title">✨ Helpful Hint:</div>
+                        <p>Ask questions step by step.</p>
+                        <div class="section-title">💬 Final Point:</div>
+                        <p>What's going through your mind right now? What's your understanding at this moment? Tell me your view on it.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="typing-indicator" id="typingIndicator">
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <span>Comparing with previous question...</span>
+            </div>
+            
+            <div class="image-container">
+                <!-- Image preview appears ABOVE the input field -->
+                <div id="imagePreviewWrapper" class="image-preview-wrapper">
+                    <img id="imagePreview" class="image-preview" alt="Preview">
+                    <button class="remove-image-btn" onclick="clearImage()" title="Remove image">×</button>
+                </div>
+                <!-- Input field appears BELOW the image -->
+                <div class="input-area">
+                    <input type="text" id="questionInput" 
+                           placeholder="Describe the image or ask a question..." 
+                           onkeypress="handleKeyPress(event)">
+                    <input type="file" id="imageInput" accept="image/*" onchange="handleImageUpload()">
+                    <button id="uploadImageBtn" onclick="document.getElementById('imageInput').click()">
+                        <span>🖼️</span> Image
+                    </button>
+                    <button id="sendBtn" onclick="askQuestion()">
+                        <span>📤</span> Ask
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        
+    </div>
+
+    <script>
+        const API_BASE = window.location.origin;
+        const studentId = 'student_' + Math.random().toString(36).substr(2, 9);
+        let sessionInfo = {
+            previousQuestion: null,
+            questionCount: 0,
+            currentTopic: null
+        };
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            const sid = document.getElementById('studentId');
+            if (sid) sid.textContent = studentId.substring(0, 8) + '...';
+            updateSessionDisplay();
+        });
+
+        function handleKeyPress(event) {
+            if (event.key === 'Enter') {
+                askQuestion();
+            }
+        }
+
+        let uploadedImageBase64 = null;
+
+        function handleImageUpload() {
+            const imageInput = document.getElementById('imageInput');
+            const file = imageInput.files[0];
+            
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                uploadedImageBase64 = e.target.result;
+                // Show a temporary preview to indicate image was uploaded
+                const imagePreview = document.getElementById('imagePreview');
+                const imagePreviewWrapper = document.getElementById('imagePreviewWrapper');
+                imagePreview.src = uploadedImageBase64;
+                imagePreviewWrapper.classList.add('show');
+                
+                // Update button to show image is loaded
+                const uploadBtn = document.getElementById('uploadImageBtn');
+                uploadBtn.innerHTML = '<span>✅</span> Image Loaded';
+                uploadBtn.style.background = 'linear-gradient(135deg, #00b894 0%, #00cec9 100%)';
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function clearImage() {
+            uploadedImageBase64 = null;
+            const imagePreview = document.getElementById('imagePreview');
+            const imagePreviewWrapper = document.getElementById('imagePreviewWrapper');
+            const imageInput = document.getElementById('imageInput');
+            imagePreviewWrapper.classList.remove('show');
+            imageInput.value = '';
+            
+            // Reset button appearance
+            const uploadBtn = document.getElementById('uploadImageBtn');
+            uploadBtn.innerHTML = '<span>🖼️</span> Image';
+            uploadBtn.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
+        }
+
+        async function askQuestion() {
+            const questionInput = document.getElementById('questionInput');
+            const question = questionInput.value.trim();
+            
+            if (!question && !uploadedImageBase64) {
+                alert('Please enter a question or upload an image');
+                return;
+            }
+            
+            // Store whether we have an image to process
+            const hasImage = !!uploadedImageBase64;
+            const tempImageBase64 = uploadedImageBase64; // Store before clearing
+            
+            // DON'T show user message yet if there's an image - wait for extraction
+            if (!hasImage) {
+                // No image - just show the text question immediately
+                addMessage(question, 'student', '', '', 0);
+            }
+            
+            questionInput.value = '';
+            
+            // Show typing indicator
+            showTyping(true);
+            
+            try {
+                const payload = {
+                    studentId: studentId,
+                    question: question
+                };
+
+                // Add image if uploaded
+                if (hasImage) {
+                    payload.image = tempImageBase64;
+                }
+
+                const response = await fetch(`${API_BASE}/api/tutor/ask`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                
+                const data = await response.json();
+                
+                // Clear image AFTER response is received
+                if (hasImage) {
+                    clearImage();
+                }
+                
+                if (data.success) {
+                    // If image was uploaded, decide what to show based on OCR extraction
+                    if (hasImage) {
+                        // Check if OCR extracted meaningful text (more than 10 characters)
+                        const hasExtractedText = data.extractedQuestion && data.extractedQuestion.trim().length > 10;
+                        
+                        if (hasExtractedText && data.diagramImage) {
+                            // Feature 1: Image has readable question text
+                            // Show extracted question + cropped diagram
+                            addMessage(data.extractedQuestion, 'student', '', '', 0, data.diagramImage);
+                        } else {
+                            // Feature 2: Image has no readable text OR extraction failed
+                            // Show user-typed question + original image
+                            const userText = question || "Please analyze this image";
+                            addMessage(userText, 'student', '', '', 0, tempImageBase64);
+                        }
+                    }
+                    
+                    // Add tutor message with topic indicator (NO diagram in bot response)
+                    const indicatorClass = data.isNewTopic ? 'new-topic' : 'same-topic';
+                    const indicatorText = data.isNewTopic ? 'NEW TOPIC' : 'SAME TOPIC';
+                    
+                    // Bot response without diagram - only text explanation
+                    addMessage(
+                        data.response, 
+                        'tutor', 
+                        indicatorText, 
+                        indicatorClass, 
+                        data.questionCount
+                        // No image passed - bot shows only text response
+                    );
+                    
+                    // Update session info - use extracted question if available
+                    sessionInfo.previousQuestion = data.extractedQuestion || question;
+                    sessionInfo.questionCount = data.questionCount;
+                    sessionInfo.currentTopic = data.topic || extractTopic(data.extractedQuestion || question);
+
+                    // Safely update session display if elements exist
+                    updateSessionDisplay();
+                } else {
+                    addMessage(`Error: ${data.error}`, 'tutor', 'ERROR', 'new-topic');
+                }
+                
+            } catch (error) {
+                addMessage(`Network error: ${error.message}`, 'tutor', 'ERROR', 'new-topic');
+            } finally {
+                showTyping(false);
+                questionInput.focus();
+            }
+        }
+
+        function addMessage(content, sender, topicIndicator = '', indicatorClass = '', questionCount = 0, imageData = null) {
+            const chatMessages = document.getElementById('chatMessages');
+            
+            let messageContent = content;
+            
+            // Format tutor responses
+            if (sender === 'tutor') {
+                messageContent = formatTutorResponse(content, topicIndicator === 'NEW TOPIC');
+            }
+            
+            let countBadge = '';
+            if (questionCount > 0) {
+                countBadge = `<span class="question-count">Q${questionCount}</span>`;
+            }
+
+            let imageHTML = '';
+            // Show extracted diagram for BOTH student and tutor messages
+            // Never show the full uploaded image - only the extracted diagram
+            if (imageData) {
+                // Both student and tutor show extracted diagram only
+                imageHTML = `<div class="image-container" style="margin: 10px 0; text-align: center;">
+                    <img src="${imageData}" class="message-image" alt="Extracted diagram" style="max-width: 100%; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.2);">
+                </div>`;
+            }
+
+            // For student messages, create a wrapper to hold both message and action buttons
+            if (sender === 'student') {
+                const messageWrapper = document.createElement('div');
+                messageWrapper.style.cssText = 'clear: both; display: flex; flex-direction: column; align-items: flex-end; margin-bottom: 20px;';
+                
+                const messageDiv = document.createElement('div');
+                messageDiv.className = `message ${sender}-message`;
+                messageDiv.style.cssText = 'float: none; margin: 0;';
+                
+                messageDiv.innerHTML = `
+                    <div class="message-header">
+                        <div>👨‍🎓 You ${countBadge}</div>
+                        ${topicIndicator ? `<span class="topic-indicator ${indicatorClass}">${topicIndicator}</span>` : ''}
+                    </div>
+                    ${imageHTML}
+                    <div class="message-content" data-original-content="${escapeHtml(content)}">${messageContent}</div>
+                `;
+                
+                const actionButtonsContainer = document.createElement('div');
+                actionButtonsContainer.className = 'action-buttons-container';
+                actionButtonsContainer.style.cssText = 'display: flex; gap: 8px; margin-top: 5px;';
+                
+                actionButtonsContainer.innerHTML = `
+                    <button class="copy-btn" title="Copy" style="padding: 6px 8px; background: transparent; color: #333; border: 1px solid #ddd; border-radius: 6px; cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center; transition: all 0.2s;">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                        </svg>
+                    </button>
+                    <button class="edit-btn" title="Edit" style="padding: 6px 8px; background: transparent; color: #333; border: 1px solid #ddd; border-radius: 6px; cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center; transition: all 0.2s;">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                            <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                        </svg>
+                    </button>
+                `;
+                
+                messageWrapper.appendChild(messageDiv);
+                messageWrapper.appendChild(actionButtonsContainer);
+                chatMessages.appendChild(messageWrapper);
+                
+                const editBtn = actionButtonsContainer.querySelector('.edit-btn');
+                const copyBtn = actionButtonsContainer.querySelector('.copy-btn');
+                
+                editBtn.addEventListener('click', () => handleEditMessage(messageDiv, actionButtonsContainer, content, imageData));
+                copyBtn.addEventListener('click', () => handleCopyMessage(content, imageData));
+            } else {
+                // Tutor messages - no action buttons
+                const messageDiv = document.createElement('div');
+                messageDiv.className = `message ${sender}-message`;
+                
+                messageDiv.innerHTML = `
+                    <div class="message-header">
+                        <div>🤖 NEET Tutor AI ${countBadge}</div>
+                        ${topicIndicator ? `<span class="topic-indicator ${indicatorClass}">${topicIndicator}</span>` : ''}
+                    </div>
+                    ${imageHTML}
+                    <div class="message-content" data-original-content="${escapeHtml(content)}">${messageContent}</div>
+                `;
+                
+                chatMessages.appendChild(messageDiv);
+            }
+            
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        function handleEditMessage(messageDiv, actionButtonsContainer, originalContent, imageData) {
+            const messageContentDiv = messageDiv.querySelector('.message-content');
+            const imageContainer = messageDiv.querySelector('.image-container');
+            
+            // Store original for cancel
+            messageDiv.dataset.originalContent = originalContent;
+            messageDiv.dataset.isEditing = 'true';
+            messageDiv.dataset.hasImage = imageData ? 'true' : 'false';
+            if (imageData) {
+                messageDiv.dataset.imageData = imageData;
+            }
+            
+            // If there's an image, add X button to remove it
+            if (imageContainer) {
+                imageContainer.style.position = 'relative';
+                const removeBtn = document.createElement('button');
+                removeBtn.className = 'remove-image-btn';
+                removeBtn.innerHTML = '✕';
+                removeBtn.style.cssText = `
+                    position: absolute;
+                    top: 5px;
+                    right: 5px;
+                    width: 30px;
+                    height: 30px;
+                    border-radius: 50%;
+                    background: rgba(255, 0, 0, 0.8);
+                    color: white;
+                    border: 2px solid white;
+                    font-size: 18px;
+                    font-weight: bold;
+                    cursor: pointer;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+                    transition: all 0.2s;
+                    z-index: 10;
+                `;
+                removeBtn.addEventListener('mouseenter', () => {
+                    removeBtn.style.background = 'rgba(255, 0, 0, 1)';
+                    removeBtn.style.transform = 'scale(1.1)';
+                });
+                removeBtn.addEventListener('mouseleave', () => {
+                    removeBtn.style.background = 'rgba(255, 0, 0, 0.8)';
+                    removeBtn.style.transform = 'scale(1)';
+                });
+                removeBtn.addEventListener('click', () => {
+                    imageContainer.remove();
+                    messageDiv.dataset.hasImage = 'false';
+                    delete messageDiv.dataset.imageData;
+                });
+                imageContainer.appendChild(removeBtn);
+            }
+            
+            // Create editable textarea
+            messageContentDiv.innerHTML = `
+                <textarea class="edit-textarea" style="width: 100%; min-height: 80px; padding: 10px; border: 2px solid #667eea; border-radius: 8px; font-size: 14px; font-family: inherit; resize: vertical;">${escapeHtml(originalContent)}</textarea>
+            `;
+            
+            // Replace action buttons with Cancel and Send
+            actionButtonsContainer.innerHTML = `
+                <button class="cancel-btn" style="padding: 5px 12px; background: linear-gradient(135deg, #868f96 0%, #596164 100%); color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 13px; display: flex; align-items: center; gap: 5px;">
+                    ❌ Cancel
+                </button>
+                <button class="send-edit-btn" style="padding: 5px 12px; background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%); color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 13px; display: flex; align-items: center; gap: 5px;">
+                    📤 Send
+                </button>
+            `;
+            
+            const textarea = messageContentDiv.querySelector('.edit-textarea');
+            const cancelBtn = actionButtonsContainer.querySelector('.cancel-btn');
+            const sendBtn = actionButtonsContainer.querySelector('.send-edit-btn');
+            
+            // Focus textarea
+            textarea.focus();
+            textarea.setSelectionRange(textarea.value.length, textarea.value.length);
+            
+            // Cancel button
+            cancelBtn.addEventListener('click', () => {
+                messageContentDiv.innerHTML = escapeHtml(originalContent);
+                messageDiv.dataset.isEditing = 'false';
+                
+                // If image was removed, restore it
+                if (imageData && messageDiv.dataset.hasImage === 'false') {
+                    const existingImageContainer = messageDiv.querySelector('.image-container');
+                    if (existingImageContainer) {
+                        // Remove the X button if exists
+                        const removeBtn = existingImageContainer.querySelector('.remove-image-btn');
+                        if (removeBtn) removeBtn.remove();
+                        existingImageContainer.style.position = '';
+                    } else {
+                        // Re-create image container
+                        const imageHTML = `<div class="image-container" style="margin: 10px 0; text-align: center;">
+                            <img src="${imageData}" class="message-image" alt="Extracted diagram" style="max-width: 100%; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.2);">
+                        </div>`;
+                        const messageHeader = messageDiv.querySelector('.message-header');
+                        messageHeader.insertAdjacentHTML('afterend', imageHTML);
+                    }
+                    messageDiv.dataset.hasImage = 'true';
+                } else if (imageData) {
+                    // Just remove the X button
+                    const existingImageContainer = messageDiv.querySelector('.image-container');
+                    if (existingImageContainer) {
+                        const removeBtn = existingImageContainer.querySelector('.remove-image-btn');
+                        if (removeBtn) removeBtn.remove();
+                        existingImageContainer.style.position = '';
+                    }
+                }
+                
+                // Restore original buttons
+                actionButtonsContainer.innerHTML = `
+                    <button class="copy-btn" title="Copy" style="padding: 6px 8px; background: transparent; color: #333; border: 1px solid #ddd; border-radius: 6px; cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center; transition: all 0.2s;">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                        </svg>
+                    </button>
+                    <button class="edit-btn" title="Edit" style="padding: 6px 8px; background: transparent; color: #333; border: 1px solid #ddd; border-radius: 6px; cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center; transition: all 0.2s;">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                            <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                        </svg>
+                    </button>
+                `;
+                
+                const editBtn = actionButtonsContainer.querySelector('.edit-btn');
+                const copyBtn = actionButtonsContainer.querySelector('.copy-btn');
+                editBtn.addEventListener('click', () => handleEditMessage(messageDiv, actionButtonsContainer, originalContent, imageData));
+                copyBtn.addEventListener('click', () => handleCopyMessage(originalContent, imageData));
+            });
+            
+            // Send button
+            sendBtn.addEventListener('click', async () => {
+                const editedText = textarea.value.trim();
+                if (!editedText) {
+                    alert('Please enter a question');
+                    return;
+                }
+                
+                // Check if image was removed
+                const currentHasImage = messageDiv.dataset.hasImage === 'true';
+                const currentImageData = currentHasImage ? messageDiv.dataset.imageData : null;
+                
+                // Remove X button if image still exists
+                const existingImageContainer = messageDiv.querySelector('.image-container');
+                if (existingImageContainer) {
+                    const removeBtn = existingImageContainer.querySelector('.remove-image-btn');
+                    if (removeBtn) removeBtn.remove();
+                    existingImageContainer.style.position = '';
+                }
+                
+                // Update the bubble with edited content
+                messageContentDiv.innerHTML = escapeHtml(editedText);
+                messageDiv.dataset.isEditing = 'false';
+                
+                // Restore original buttons
+                actionButtonsContainer.innerHTML = `
+                    <button class="copy-btn" title="Copy" style="padding: 6px 8px; background: transparent; color: #333; border: 1px solid #ddd; border-radius: 6px; cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center; transition: all 0.2s;">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                        </svg>
+                    </button>
+                    <button class="edit-btn" title="Edit" style="padding: 6px 8px; background: transparent; color: #333; border: 1px solid #ddd; border-radius: 6px; cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center; transition: all 0.2s;">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                            <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                        </svg>
+                    </button>
+                `;
+                
+                const editBtn = actionButtonsContainer.querySelector('.edit-btn');
+                const copyBtn = actionButtonsContainer.querySelector('.copy-btn');
+                editBtn.addEventListener('click', () => handleEditMessage(messageDiv, actionButtonsContainer, editedText, currentImageData));
+                copyBtn.addEventListener('click', () => handleCopyMessage(editedText, currentImageData));
+                
+                // Remove ALL messages after the edited message (like ChatGPT)
+                const messageWrapper = messageDiv.parentElement; // Get the wrapper
+                let nextElement = messageWrapper.nextElementSibling;
+                while (nextElement) {
+                    const elementToRemove = nextElement;
+                    nextElement = nextElement.nextElementSibling;
+                    elementToRemove.remove();
+                }
+                
+                // Trigger normal request flow with edited question
+                showTyping(true);
+                
+                try {
+                    const payload = {
+                        studentId: studentId,
+                        question: editedText,
+                        isEdit: true  // Flag to treat as fresh question
+                    };
+
+                    // Add image only if it wasn't removed
+                    if (currentImageData) {
+                        payload.image = currentImageData;
+                    }
+
+                    const response = await fetch(`${API_BASE}/api/tutor/ask`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+                    
+                    const data = await response.json();
+                    
+                    if (data.success) {
+                        // Add tutor message with topic indicator
+                        const indicatorClass = data.isNewTopic ? 'new-topic' : 'same-topic';
+                        const indicatorText = data.isNewTopic ? 'NEW TOPIC' : 'SAME TOPIC';
+                        
+                        addMessage(
+                            data.response, 
+                            'tutor', 
+                            indicatorText, 
+                            indicatorClass, 
+                            data.questionCount
+                        );
+                        
+                        // Update session info
+                        sessionInfo.previousQuestion = editedText;
+                        sessionInfo.questionCount = data.questionCount;
+                        sessionInfo.currentTopic = data.topic || extractTopic(editedText);
+
+                        updateSessionDisplay();
+                    } else {
+                        addMessage(`Error: ${data.error}`, 'tutor', 'ERROR', 'new-topic');
+                    }
+                    
+                } catch (error) {
+                    addMessage(`Network error: ${error.message}`, 'tutor', 'ERROR', 'new-topic');
+                } finally {
+                    showTyping(false);
+                }
+            });
+        }
+
+        function handleCopyMessage(content, imageData) {
+            let copyText = content;
+            
+            if (imageData) {
+                copyText += '\n[Image/Diagram included]';
+            }
+            
+            navigator.clipboard.writeText(copyText).then(() => {
+                // Visual feedback
+                const notification = document.createElement('div');
+                notification.textContent = '✓ Copied to clipboard';
+                notification.style.cssText = `
+                    position: fixed;
+                    top: 20px;
+                    right: 20px;
+                    background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+                    color: white;
+                    padding: 12px 20px;
+                    border-radius: 8px;
+                    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+                    z-index: 10000;
+                    font-weight: 600;
+                    animation: slideIn 0.3s ease-out;
+                `;
+                document.body.appendChild(notification);
+                
+                setTimeout(() => {
+                    notification.style.animation = 'slideOut 0.3s ease-out';
+                    setTimeout(() => notification.remove(), 300);
+                }, 2000);
+            }).catch(err => {
+                console.error('Failed to copy:', err);
+                alert('Failed to copy to clipboard');
+            });
+        }
+
+        function formatTutorResponse(content, isNewTopic) {
+            let formatted = escapeHtml(content);
+            
+            // Apply special formatting ONLY if 4-section markers are present
+            const hasFourSectionMarkers = /📚 Concept:|🌟 Core Concept:|✨ Helpful Hint:|💬 Final Point:/.test(formatted);
+            if (hasFourSectionMarkers) {
+                // Split by the section markers to extract content
+                let sections = {
+                    concept: '',
+                    coreContent: '',
+                    hint: '',
+                    finalPoint: ''
+                };
+
+                // Extract Concept
+                const conceptMatch = formatted.match(/📚 Concept:\s*(.+?)(?=🌟|✨|💬|$)/s);
+                if (conceptMatch) {
+                    sections.concept = conceptMatch[1].trim();
+                }
+
+                // Extract Core Concept
+                const coreMatch = formatted.match(/🌟 Core Concept:\s*(.+?)(?=✨|💬|$)/s);
+                if (coreMatch) {
+                    sections.coreContent = coreMatch[1].trim();
+                }
+
+                // Extract Helpful Hint
+                const hintMatch = formatted.match(/✨ Helpful Hint:\s*(.+?)(?=💬|$)/s);
+                if (hintMatch) {
+                    sections.hint = hintMatch[1].trim();
+                }
+
+                // Extract Final Point
+                const finalMatch = formatted.match(/💬 Final Point:\s*(.+?)$/s);
+                if (finalMatch) {
+                    sections.finalPoint = finalMatch[1].trim();
+                }
+
+                // Build the formatted HTML with content INSIDE the boxes
+                formatted = `
+                    <div class="section-title">📚 Concept:</div><div class="concept-box">${sections.concept}</div><div class="section-title">🌟 Core Concept:</div><div class="concept-box">${sections.coreContent}</div><div class="section-title">✨ Helpful Hint:</div><div class="hint-box">${sections.hint}</div><div class="section-title">💬 Final Point:</div><div class="concept-box">${sections.finalPoint}</div>
+                `;
+                
+                // Wrap in 4-section container
+                formatted = `<div class="four-section">${formatted}</div>`;
+            }
+            
+            // Convert newlines to paragraphs
+            formatted = formatted.replace(/\n/g, '<br>');
+            
+            return formatted;
+        }
+
+        function showTyping(show) {
+            const typingIndicator = document.getElementById('typingIndicator');
+            typingIndicator.style.display = show ? 'block' : 'none';
+            const chatMessages = document.getElementById('chatMessages');
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        function useSample(question) {
+            document.getElementById('questionInput').value = question;
+            document.getElementById('questionInput').focus();
+        }
+
+        function updateSessionDisplay() {
+            const prevEl = document.getElementById('prevQuestion');
+            const countEl = document.getElementById('questionCount');
+            const topicEl = document.getElementById('currentTopic');
+            if (prevEl) {
+                prevEl.textContent = sessionInfo.previousQuestion ?
+                    sessionInfo.previousQuestion.substring(0, 30) + '...' : 'None';
+            }
+            if (countEl) countEl.textContent = sessionInfo.questionCount;
+            if (topicEl) topicEl.textContent = sessionInfo.currentTopic || 'None';
+        }
+
+        function extractTopic(question) {
+            const q = question.toLowerCase();
+            if (q.includes('mitosis') || q.includes('meiosis')) return 'Cell Division';
+            if (q.includes('newton') || q.includes('motion')) return 'Laws of Motion';
+            if (q.includes('mole')) return 'Mole Concept';
+            return 'General Topic';
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        // Load session info on startup
+        async function loadSessionInfo() {
+            try {
+                const response = await fetch(`${API_BASE}/api/tutor/session/${studentId}`);
+                const data = await response.json();
+                
+                if (data.success) {
+                    sessionInfo = {
+                        previousQuestion: data.session.previousQuestion,
+                        questionCount: data.session.questionCount,
+                        currentTopic: data.session.currentTopic
+                    };
+                    updateSessionDisplay();
+                }
+            } catch (error) {
+                console.log('Starting new session');
+            }
+        }
+
+        loadSessionInfo();
+
+        // Clear session with confirmation
+        async function clearSessionConfirm() {
+            if (confirm('Are you sure you want to clear your session? This will remove all chat history.')) {
+                try {
+                    const response = await fetch(`${API_BASE}/api/tutor/clear`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ studentId: studentId })
+                    });
+                    
+                    const data = await response.json();
+                    
+                    if (data.success) {
+                        // Clear UI
+                        const chatMessages = document.getElementById('chatMessages');
+                        chatMessages.innerHTML = `
+                            <div class="message tutor-message">
+                                <div class="message-header">
+                                    <div>🤖 NEET Tutor AI</div>
+                                    <span class="topic-indicator new-topic">NEW TOPIC</span>
+                                </div>
+                                <p>Session cleared! Welcome back! I'm your NEET tutor with exact 4-section format for first questions.</p>
+                            </div>
+                        `;
+                        
+                        // Reset session info
+                        sessionInfo = {
+                            previousQuestion: null,
+                            questionCount: 0,
+                            currentTopic: null
+                        };
+                        updateSessionDisplay();
+                        
+                        alert('Session cleared successfully!');
+                    } else {
+                        alert('Failed to clear session: ' + data.error);
+                    }
+                } catch (error) {
+                    alert('Error clearing session: ' + error.message);
+                }
+            }
+        }
+
+        // View chat history
+        async function viewHistory() {
+            try {
+                const response = await fetch(`${API_BASE}/api/tutor/history/${studentId}`);
+                const data = await response.json();
+                
+                if (data.success) {
+                    if (data.history.length === 0) {
+                        alert('No chat history yet. Start asking questions!');
+                        return;
+                    }
+                    
+                    let historyText = '📜 Chat History:\n\n';
+                    data.history.forEach((item, index) => {
+                        const question = item.question || '';
+                        const response = item.response || '';
+                        historyText += `${index + 1}. [QUESTION] ${question.substring(0, 100)}${question.length > 100 ? '...' : ''}\n`;
+                        historyText += `   [ANSWER] ${response.substring(0, 100)}${response.length > 100 ? '...' : ''}\n\n`;
+                    });
+                    
+                    // Show in a scrollable alert/modal
+                    const modalDiv = document.createElement('div');
+                    modalDiv.style.cssText = 'position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 30px; border-radius: 12px; box-shadow: 0 8px 32px rgba(0,0,0,0.3); max-width: 600px; max-height: 80vh; overflow-y: auto; z-index: 10000;';
+                    modalDiv.innerHTML = `
+                        <h2 style="margin-top: 0;">📜 Chat History (${data.history.length} messages)</h2>
+                        <div style="white-space: pre-wrap; font-family: monospace; font-size: 14px; line-height: 1.6;">${historyText}</div>
+                        <button onclick="this.parentElement.remove(); document.getElementById('historyOverlay').remove();" style="margin-top: 20px; padding: 10px 20px; background: #667eea; color: white; border: none; border-radius: 6px; cursor: pointer;">Close</button>
+                    `;
+                    
+                    const overlay = document.createElement('div');
+                    overlay.id = 'historyOverlay';
+                    overlay.style.cssText = 'position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 9999;';
+                    overlay.onclick = () => {
+                        modalDiv.remove();
+                        overlay.remove();
+                    };
+                    
+                    document.body.appendChild(overlay);
+                    document.body.appendChild(modalDiv);
+                } else {
+                    alert('Failed to load history: ' + data.error);
+                }
+            } catch (error) {
+                alert('Error loading history: ' + error.message);
+            }
+        }
+    </script>
+</body>
+</html>

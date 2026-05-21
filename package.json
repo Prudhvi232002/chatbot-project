@@ -1,0 +1,35 @@
+{
+  "name": "neet-tutor-chatbot",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "AI NEET Tutor with 4-section format",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "dependencies": {
+    "@mapbox/node-pre-gyp": "^2.0.3",
+    "@techstark/opencv-js": "^4.12.0-release.1",
+    "better-sqlite3": "^11.10.0",
+    "canvas": "^3.2.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.0",
+    "express": "^4.18.0",
+    "openai": "^4.0.0",
+    "sharp": "^0.34.5",
+    "sql.js": "^1.14.1",
+    "tesseract.js": "^7.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.0"
+  },
+  "keywords": [
+    "neet",
+    "tutor",
+    "ai",
+    "education"
+  ],
+  "author": "Your Name",
+  "license": "MIT"
+}
